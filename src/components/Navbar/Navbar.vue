@@ -15,7 +15,7 @@
             <a class="nav-link" href="#">Features</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="#">Account Settings</a>
           </li>
           <li class="nav-item" @click="logout">
             <router-link to="/" class="nav-link">Logout</router-link>
