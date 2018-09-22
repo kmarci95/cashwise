@@ -2,6 +2,7 @@
   <div class="dashboard">
     <navbar></navbar>
     <router-view></router-view>
+    <my-footer></my-footer>
     <div class="dashboard__background"></div>
   </div>
 </template>
@@ -9,10 +10,11 @@
 <script>
   import Navbar from "../components/Navbar/Navbar.vue";
   import Budget from "../components/Budget/Budget.vue";
-
+  import MyFooter from "../components/Footer/MyFooter.vue";
+  
   export default {
     name: "DashboardPage",
-    components: {Budget, Navbar},
+    components: {Budget, Navbar, MyFooter},
     created() {
       this.$store.dispatch('fetchUser', this.$store.getters.getUserId);
     }
