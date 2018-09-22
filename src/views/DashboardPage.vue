@@ -2,7 +2,7 @@
   <div>
     <navbar></navbar>
     <h1>Dashboard Page</h1>
-    <myfooter></myfooter>
+    <my-footer></my-footer>
   </div>
 </template>
 
@@ -19,5 +19,7 @@
 </script>
 
 <style scoped>
-
+  body{
+    height: 100%;
+  }
 </style>
