@@ -9,7 +9,6 @@
 <script>
   import Navbar from "../components/Navbar/Navbar.vue";
   import MyFooter from "../components/Footer/MyFooter.vue";
-  import Home from "./Home.vue";
   import axios from 'axios';
 
   export default {
@@ -19,7 +18,5 @@
 </script>
 
 <style scoped>
-  body{
-    height: 100%;
-  }
+
 </style>
