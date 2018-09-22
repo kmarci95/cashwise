@@ -28,5 +28,12 @@ export const validate = (value, type) => {
     }
   }
 
+  if(type === 'text') {
+    if(validator.isEmpty(value)) {
+      error.errorMsg = 'Password is required';
+      error.error = true
+    }
+  }
+
   return error;
 };

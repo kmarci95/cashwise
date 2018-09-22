@@ -32,6 +32,11 @@ const actions = {
         localStorage.setItem('token', res.data.idToken);
         localStorage.setItem('userId', res.data.localId);
         localStorage.setItem('expiresIn', expDate);
+        axios.post('https://cashwise-a8d6a.firebaseio.com/users.json', {
+          userId: res.data.localId,
+          userName: authData.name,
+          budget: ''
+        })
       })
   },
   login({commit, dispatch}, authData) {
@@ -73,6 +78,9 @@ const actions = {
 const getters = {
   isAuthenticated(state) {
     return state.idToken !== null;
+  },
+  getUserId(state) {
+    return state.userId;
   }
 };
 
