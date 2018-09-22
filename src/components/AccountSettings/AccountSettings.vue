@@ -11,11 +11,29 @@
             <input type="text" class="form-control" :class="{'is-invalid': nameError.error}" id="nameEdit"
                    placeholder="Name" v-model="name">
             <div class="invalid-feedback" v-if="nameError.error">{{nameError.errorMsg}}</div>
-            <button class="btn btn-primary mt-4" @click="submit">Change</button>
+            <button class="btn btn-primary mt-3" @click="changeInfo">Change</button>
           </div>
 
           <div class="p-3">
-            <h4 class="mb-4">Categories</h4>
+            <h4 class="mb-4">Your Categories</h4>
+            <div class="d-flex mb-3">
+              <div class="w-25 mr-3">
+                <input type="text" class="form-control" :class="{'is-invalid': categoryError.error}" id="addCategory"
+                       placeholder="Category name" v-model="category">
+                <div class="invalid-feedback" v-if="categoryError.error">{{categoryError.errorMsg}}</div>
+              </div>
+              <div>
+                <button class="btn btn-primary" @click="addCategory">Add Category</button>
+              </div>
+            </div>
+            <div v-if="!categories">
+              <p>You don't have categories yet</p>
+            </div>
+            <div v-else>
+              <div v-for="category in categories">
+                {{category.label}}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -37,14 +55,31 @@
         nameError: {
           error: false,
           errorMsg: ''
+        },
+        category: '',
+        categoryError: {
+          error: false,
+          errorMsg: ''
         }
       }
     },
+    computed: {
+      categories() {
+        return this.$store.getters.getCategories;
+      }
+    },
     methods: {
-      submit() {
+      changeInfo() {
         this.nameError = validate(this.name, 'text');
         if(!this.nameError.error) {
           this.$store.dispatch('changeUserName', this.name);
+        }
+      },
+      addCategory() {
+        this.categoryError = validate(this.category, 'text');
+        if(!this.categoryError.error) {
+          this.$store.dispatch('addCategory', this.category);
+          this.category = '';
         }
       }
     },

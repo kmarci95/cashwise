@@ -30,7 +30,7 @@ export const validate = (value, type) => {
 
   if(type === 'text') {
     if(validator.isEmpty(value)) {
-      error.errorMsg = 'Password is required';
+      error.errorMsg = 'This field can not be empty';
       error.error = true
     }
   }

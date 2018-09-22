@@ -17,6 +17,9 @@ const mutations = {
   },
   finishRequest(state) {
     state.loading = false;
+  },
+  addCategory(state, category) {
+    state.user.categories.push(category);
   }
 };
 
@@ -29,10 +32,15 @@ const actions = {
           if(res.data[key].userId === userId) {
             let incomeArr = [];
             for(let key2 in res.data[key].incomes) {
-              incomeArr.push({...res.data[key].incomes[key2]});
+              incomeArr.push({...res.data[key].incomes[key2], key: key2});
             }
-            console.log(incomeArr);
-            commit('setUser', {...res.data[key], key, incomes: incomeArr});
+
+            let categoriesArr = [];
+            for(let key2 in res.data[key].categories) {
+              categoriesArr.push({...res.data[key].categories[key2], key: key2});
+            }
+
+            commit('setUser', {...res.data[key], key, incomes: incomeArr, categories: categoriesArr});
           }
         }
         commit('finishRequest');
@@ -40,11 +48,20 @@ const actions = {
       .catch(err => console.error(err));
   },
   changeUserName({commit, state}, userName) {
-    commit('setUserName', userName);
-    console.log(userName);
     axios.patch(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}.json`, {
       userName
     })
+      .then(res => commit('setUserName', userName))
+      .catch(err => console.error(err));
+  },
+  addCategory({commit}, category) {
+    axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/categories.json`, {
+      label: category
+    })
+      .then(res => {
+        commit('addCategory', {label: category, key: res.data.name})
+      })
+      .catch(err => console.error(err));
   }
 };
 
@@ -57,6 +74,9 @@ const getters = {
   },
   getUserLoading(state) {
     return state.loading;
+  },
+  getCategories(state) {
+    return state.user.categories;
   },
   getBudget(state) {
     return state.user.budget;
