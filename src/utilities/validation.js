@@ -28,5 +28,12 @@ export const validate = (value, type) => {
     }
   }
 
+  if(type === 'text') {
+    if(validator.isEmpty(value)) {
+      error.errorMsg = 'This field can not be empty';
+      error.error = true
+    }
+  }
+
   return error;
 };

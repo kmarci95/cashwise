@@ -6,9 +6,14 @@
     <div class="invalid-feedback" v-if="emailError.error">{{emailError.errorMsg}}</div>
 
     <label for="authFormPass">Password</label>
-    <input type="password" class="form-control" :class="{'is-invalid': passwordError.error}" id="authFormPass"
+    <input type="password" class="form-control mb-2" :class="{'is-invalid': passwordError.error}" id="authFormPass"
            placeholder="Password" v-model="password">
     <div class="invalid-feedback" v-if="passwordError.error">{{passwordError.errorMsg}}</div>
+
+    <label v-if="active === 'Register'" for="authFormname">Name</label>
+    <input v-if="active === 'Register'" type="text" class="form-control" :class="{'is-invalid': nameError.error}" id="authFormname"
+           placeholder="Name" v-model="name">
+    <div class="invalid-feedback" v-if="nameError.error">{{nameError.errorMsg}}</div>
 
     <button type="button" class="btn btn-primary btn-lg btn-block mt-4" @click="submit">{{active}}</button>
   </div>
@@ -22,13 +27,14 @@
     props: {
       active: {
         type: String,
-        default: 'login'
+        default: 'Login'
       },
     },
     data() {
       return {
         email: '',
         password: '',
+        name: '',
         emailError: {
           errorMsg: '',
           error: false
@@ -36,7 +42,11 @@
         passwordError: {
           errorMsg: '',
           error: false
-        }
+        },
+        nameError: {
+          errorMsg: '',
+          error: false
+        },
       }
     },
     watch: {
@@ -55,12 +65,12 @@
       submit() {
         this.emailError = validate(this.email, 'email');
         this.passwordError = validate(this.password, 'password');
-        if(!this.emailError.error && !this.passwordError.error) {
+        if(!this.emailError.error && !this.passwordError.error && !this.nameError.error) {
           if(this.active === 'Login') {
             this.$store.dispatch('login', {email: this.email, password: this.password})
               .then(res => this.$router.push('/dashboard'));
           } else if(this.active === 'Register') {
-            this.$store.dispatch('register', {email: this.email, password: this.password})
+            this.$store.dispatch('register', {email: this.email, password: this.password, name: this.name})
               .then(res => this.$router.push('/dashboard'));
           }
         }

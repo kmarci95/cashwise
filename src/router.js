@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import LoginPage from './views/LoginPage';
 import DashboardPage from './views/DashboardPage';
+import Budget from './components/Budget/Budget.vue';
+import AccountSettings from './components/AccountSettings/AccountSettings.vue';
 import store from './store/store';
 
 Vue.use(Router);
@@ -16,14 +18,18 @@ export default new Router({
       component: LoginPage
     },
     {
-      path: '/dashboard', name: 'dashboard', component: DashboardPage,
+      path: '/dashboard', name: 'dashboard', component: DashboardPage, redirect: '/dashboard/budget',
       beforeEnter(to, from, next) {
         if(store.state.auth.idToken) {
           next()
         } else {
           next('/')
         }
-      }
+      },
+      children: [
+        {path: 'budget', component: Budget},
+        {path: 'account-settings', component: AccountSettings},
+      ]
     },
     {
       path: '/about',
