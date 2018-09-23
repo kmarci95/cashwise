@@ -29,9 +29,22 @@
             <div v-if="!categories">
               <p>You don't have categories yet</p>
             </div>
-            <div v-else>
-              <div v-for="category in categories">
-                {{category.label}}
+            <div v-else class="mb-3">
+              <div v-for="category in categories" class="category d-inline-flex align-items-center py-2 px-4 border mr-2">
+                <div class="category__label">
+                  {{category.label}}
+                </div>
+                <i class="fas fa-pen text-primary"></i>
+              </div>
+            </div>
+            <div class="d-flex mb-3">
+              <div class="w-25 mr-3">
+                <input type="text" class="form-control" :class="{'is-invalid': categoryError.error}" id="editCategory"
+                       placeholder="Category name" v-model="category">
+                <div class="invalid-feedback" v-if="categoryError.error">{{categoryError.errorMsg}}</div>
+              </div>
+              <div>
+                <button class="btn btn-primary" @click="addCategory">Edit Category</button>
               </div>
             </div>
           </div>
@@ -86,6 +99,27 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .category {
+    cursor: pointer;
+    transition: all .3s ease-in-out;
 
+    &__label {
+      transform: translateX(7px);
+      transition: all .15s ease-in-out;
+    }
+
+    i {
+      opacity: 0;
+    }
+
+    &:hover &__label {
+      //padding-right: 8px;
+      transform: translateX(-8px);
+    }
+
+    &:hover i {
+      opacity: 1;
+    }
+  }
 </style>

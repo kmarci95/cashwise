@@ -23,6 +23,7 @@
 
 <style lang="scss">
   @import "assets/style/bootstrap.css";
+  @import "~@fortawesome/fontawesome-free/css/all.css";
 
   .btn:focus, .btn:active {
     box-shadow: none !important;
