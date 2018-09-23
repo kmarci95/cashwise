@@ -1,5 +1,9 @@
 <template>
   <div class="d-flex flex-column align-items-center">
+    <div class="col-md-12 bg-primary p-2">
+        <p class="text-white mb-0">{{presentTime}}</p>
+    </div>
+    <h1 class="text-center">Welcome to CashWise!</h1>
     <h3 class="text-center">Available Budget in {{date}}:</h3>
     <h2 class="text-center">{{budget}}</h2>
     <div class="d-flex">
@@ -16,29 +20,31 @@
 </template>
 
 <script>
-  import { monthNames } from '../../../utilities/months';
+import { monthNames } from "../../../utilities/months";
 
-  export default {
-    name: "BudgetHeader",
-    data() {
-      return {
-        date: `${monthNames[new Date().getMonth()]} ${new Date().getFullYear()}`
-      }
+export default {
+  name: "BudgetHeader",
+  data() {
+    return {
+      date: `${monthNames[new Date().getMonth()]} ${new Date().getFullYear()}`,
+      presentTime: `${new Date().getFullYear()} ${
+        monthNames[new Date().getMonth()]
+      } ${new Date().getDate()}`
+    };
+  },
+  computed: {
+    budget() {
+      return this.$store.getters.getBudget;
     },
-    computed: {
-      budget() {
-        return this.$store.getters.getBudget;
-      },
-      income() {
-        return this.$store.getters.getIncome;
-      },
-      expenses() {
-        return this.$store.getters.getExpenses;
-      }
+    income() {
+      return this.$store.getters.getIncome;
     },
+    expenses() {
+      return this.$store.getters.getExpenses;
+    }
   }
+};
 </script>
 
 <style scoped>
-
 </style>
