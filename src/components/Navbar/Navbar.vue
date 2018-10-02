@@ -12,7 +12,10 @@
             <router-link to="/dashboard/budget" exact class="nav-link">Budget<span class="sr-only">(current)</span></router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <router-link to="/dashboard/planned-budget" class="nav-link" href="#">Planned budget</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard/goals" class="nav-link" href="#">Goals</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/dashboard/account-settings" exact class="nav-link">Account Settings</router-link>
