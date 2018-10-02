@@ -29,4 +29,8 @@
     box-shadow: none !important;
   }
 
+  .body {
+    overflow: hidden;
+  }
+
 </style>

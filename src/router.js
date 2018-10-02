@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import LoginPage from './views/LoginPage';
 import DashboardPage from './views/DashboardPage';
 import Budget from './components/Budget/Budget.vue';
+import PlannedBudget from './components/PlannedBudget/PlannedBudget.vue';
 import AccountSettings from './components/AccountSettings/AccountSettings.vue';
+import Goals from './components/Goals/Goals.vue';
 import store from './store/store';
 
 Vue.use(Router);
@@ -29,6 +31,8 @@ export default new Router({
       children: [
         {path: 'budget', component: Budget},
         {path: 'account-settings', component: AccountSettings},
+        {path: 'planned-budget', component: PlannedBudget},
+        {path: 'goals', component: Goals},
       ]
     },
     {

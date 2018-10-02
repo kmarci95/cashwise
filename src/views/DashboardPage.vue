@@ -2,6 +2,7 @@
   <div class="dashboard">
     <navbar></navbar>
     <router-view></router-view>
+    <infobar></infobar>
     <div class="dashboard__background"></div>
   </div>
 </template>
@@ -9,10 +10,11 @@
 <script>
   import Navbar from "../components/Navbar/Navbar.vue";
   import Budget from "../components/Budget/Budget.vue";
+  import Infobar from "../components/Infobar/Infobar.vue";
 
   export default {
     name: "DashboardPage",
-    components: {Budget, Navbar},
+    components: {Infobar, Budget, Navbar},
     created() {
       this.$store.dispatch('fetchUser', this.$store.getters.getUserId);
     }
@@ -24,12 +26,12 @@
     position: relative;
 
     &__background {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       height: 100vh;
       width: 100vw;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../assets/images/photo-1518235506717-e1ed3306a89b.jpeg");
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../assets/images/city.jpg");
       background-size: cover;
       z-index: -1;
     }

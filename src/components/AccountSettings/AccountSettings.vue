@@ -5,49 +5,10 @@
         <div class="bg-white shadow mt-5 py-3">
           <h3 class="text-center">Account Settings</h3>
 
-          <div class="p-3">
-            <h4 class="mb-4">Information</h4>
-            <label for="nameEdit">Name</label>
-            <input type="text" class="form-control" :class="{'is-invalid': nameError.error}" id="nameEdit"
-                   placeholder="Name" v-model="name">
-            <div class="invalid-feedback" v-if="nameError.error">{{nameError.errorMsg}}</div>
-            <button class="btn btn-primary mt-3" @click="changeInfo">Change</button>
-          </div>
+          <account-information></account-information>
 
-          <div class="p-3">
-            <h4 class="mb-4">Your Categories</h4>
-            <div class="d-flex mb-3">
-              <div class="w-25 mr-3">
-                <input type="text" class="form-control" :class="{'is-invalid': categoryError.error}" id="addCategory"
-                       placeholder="Category name" v-model="category">
-                <div class="invalid-feedback" v-if="categoryError.error">{{categoryError.errorMsg}}</div>
-              </div>
-              <div>
-                <button class="btn btn-primary" @click="addCategory">Add Category</button>
-              </div>
-            </div>
-            <div v-if="!categories">
-              <p>You don't have categories yet</p>
-            </div>
-            <div v-else class="mb-3">
-              <div v-for="category in categories" class="category d-inline-flex align-items-center py-2 px-4 border mr-2">
-                <div class="category__label">
-                  {{category.label}}
-                </div>
-                <i class="fas fa-pen text-primary"></i>
-              </div>
-            </div>
-            <div class="d-flex mb-3">
-              <div class="w-25 mr-3">
-                <input type="text" class="form-control" :class="{'is-invalid': categoryError.error}" id="editCategory"
-                       placeholder="Category name" v-model="category">
-                <div class="invalid-feedback" v-if="categoryError.error">{{categoryError.errorMsg}}</div>
-              </div>
-              <div>
-                <button class="btn btn-primary" @click="addCategory">Edit Category</button>
-              </div>
-            </div>
-          </div>
+          <account-categories></account-categories>
+
         </div>
       </div>
     </div>
@@ -55,71 +16,15 @@
 </template>
 
 <script>
-  import {validate} from '../../utilities/validation';
+  import AccountInformation from "./AccountInformation/AccountInformation.vue";
+  import AccountCategories from "./AccountCategories/AccountCategories.vue";
 
   export default {
     name: "AccountSettings",
-    created() {
-      this.name = this.$store.getters.getUserName;
-    },
-    data() {
-      return {
-        name: '',
-        nameError: {
-          error: false,
-          errorMsg: ''
-        },
-        category: '',
-        categoryError: {
-          error: false,
-          errorMsg: ''
-        }
-      }
-    },
-    computed: {
-      categories() {
-        return this.$store.getters.getCategories;
-      }
-    },
-    methods: {
-      changeInfo() {
-        this.nameError = validate(this.name, 'text');
-        if(!this.nameError.error) {
-          this.$store.dispatch('changeUserName', this.name);
-        }
-      },
-      addCategory() {
-        this.categoryError = validate(this.category, 'text');
-        if(!this.categoryError.error) {
-          this.$store.dispatch('addCategory', this.category);
-          this.category = '';
-        }
-      }
-    },
+    components: {AccountCategories, AccountInformation}
   }
 </script>
 
 <style scoped lang="scss">
-  .category {
-    cursor: pointer;
-    transition: all .3s ease-in-out;
 
-    &__label {
-      transform: translateX(7px);
-      transition: all .15s ease-in-out;
-    }
-
-    i {
-      opacity: 0;
-    }
-
-    &:hover &__label {
-      //padding-right: 8px;
-      transform: translateX(-8px);
-    }
-
-    &:hover i {
-      opacity: 1;
-    }
-  }
 </style>

@@ -35,5 +35,16 @@ export const validate = (value, type) => {
     }
   }
 
+  if(type === 'number') {
+    if(parseFloat(value) <= 0) {
+      error.errorMsg = 'This value must be bigger than 0';
+      error.error = true;
+    }
+    if(validator.isEmpty(value)) {
+      error.errorMsg = 'Password is required';
+      error.error = true
+    }
+  }
+
   return error;
 };

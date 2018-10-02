@@ -39,7 +39,7 @@
 <style scoped lang="scss">
   .login-page {
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../assets/images/photo-1518235506717-e1ed3306a89b.jpeg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.6)),url("../assets/images/city.jpg");
     background-size: cover;
 
     &__text {
