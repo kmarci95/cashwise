@@ -40,6 +40,9 @@ const mutations = {
   },
   addPlannedBudget(state, plannedBudget) {
 
+  },
+  addGoal(state, goal) {
+
   }
 };
 
@@ -114,6 +117,11 @@ const actions = {
     return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/plannedBudgets.json`, plannedBudget)
       .then(res => commit('addPlannedBudget', plannedBudget))
       .catch(err => console.error(err));
+  },
+  addGoal({commit}, goal) {
+    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/goals.json`, goal)
+      .then(res => commit('addGoal', goal))
+      .catch(err => console.log(err));
   }
 };
 

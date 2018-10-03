@@ -9,10 +9,10 @@
           <div v-else>
             <div class="row">
               <div class="col-lg-12">
-                <h3 class="text-center">Planned Budgets</h3>
+                <h3 class="text-center">Goals</h3>
               </div>
               <div class="col-lg-12">
-                <planned-budget-form></planned-budget-form>
+                <goal-form></goal-form>
               </div>
             </div>
           </div>
@@ -23,10 +23,10 @@
 </template>
 
 <script>
-  import PlannedBudgetForm from "../Forms/PlannedBudgetForm/PlannedBudgetForm.vue";
+  import GoalForm from "../Forms/GoalForm/GoalForm";
   export default {
-    name: "PlannedBudget",
-    components: {PlannedBudgetForm},
+    name: "Goals",
+    components: {GoalForm},
     computed: {
       loading() {
         return this.$store.getters.getUserLoading;
