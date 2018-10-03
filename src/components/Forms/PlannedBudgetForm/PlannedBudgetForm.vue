@@ -3,20 +3,22 @@
     <div class="bg-primary d-inline-block p-2 text-white planned-budget-form__banner">
       My Planned Budget
     </div>
-    <div class="form-group">
-      <label>Expense or Income</label>
-      <select class="custom-select expense form-control mr-3" v-model="amplitude">
-        <option>-</option>
-        <option>+</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" class="form-control" id="description" placeholder="Description" v-model="description">
-    </div>
-    <div class="form-group">
-      <label for="value">Value</label>
-      <input type="number" class="form-control" id="value" placeholder="Value" v-model="value">
+    <div class="d-flex justify-content-between">
+      <div class="form-group w-100 mr-2">
+        <label>Expense or Income</label>
+        <select class="custom-select expense form-control mr-3" v-model="amplitude">
+          <option>-</option>
+          <option>+</option>
+        </select>
+      </div>
+      <div class="form-group w-100 mr-2">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" placeholder="Description" v-model="description">
+      </div>
+      <div class="form-group w-100">
+        <label for="value">Value</label>
+        <input type="number" class="form-control" id="value" placeholder="Value" v-model="value">
+      </div>
     </div>
     <div class="form-group">
       <div class="custom-control custom-radio">
@@ -42,7 +44,9 @@
         <option>Yearly</option>
       </select>
     </div>
-    <button class="btn btn-outline-primary btn-block" @click="add">Add</button>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-primary" @click="add">Add</button>
+    </div>
   </div>
 </template>
 
@@ -95,7 +99,16 @@
                 subscription: this.subscription,
                 date: this.date
               };
-              this.$store.dispatch('addPlannedBudget', newPlanned);
+              this.$store.dispatch('addPlannedBudget', newPlanned)
+                .then(res => {
+                  this.$store.dispatch('displayInfoBar', {color: 'alert-success', title: `Planned Budget Addded`, text: ''});
+                  this.description = '';
+                  this.value = '';
+                  this.date = new Date();
+                  this.oneTimeOnly = 'one';
+                  this.amplitude = '-';
+                  this.subscription = 'Choose a subscription time';
+                });
             }
           } else {
             const newPlanned = {
@@ -104,7 +117,16 @@
               value: this.value,
               date: this.date
             };
-            this.$store.dispatch('addPlannedBudget', newPlanned);
+            this.$store.dispatch('addPlannedBudget', newPlanned)
+              .then(res => {
+                this.$store.dispatch('displayInfoBar', {color: 'alert-success', title: `Planned Budget Addded`, text: ''});
+                this.description = '';
+                this.value = '';
+                this.date = new Date();
+                this.oneTimeOnly = 'one';
+                this.amplitude = '-';
+                this.subscription = 'Choose a subscription time';
+              });
           }
         } else {
           console.log('error');
@@ -136,6 +158,4 @@
       }
     }
   }
-
-
 </style>
