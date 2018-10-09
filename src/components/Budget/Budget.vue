@@ -9,6 +9,7 @@
           <div v-else>
             <budget-header></budget-header>
             <budget-control></budget-control>
+            <budget-list></budget-list>
           </div>
         </div>
       </div>
@@ -19,13 +20,15 @@
 <script>
   import axios from 'axios';
   import BudgetHeader from "./BudgetHeader/BudgetHeader.vue";
-  import BudgetControl from "./BudgetControl/BudgetControl";
+  import BudgetControl from "./BudgetControl/BudgetControl.vue";
+  import BudgetList from './BudgetList/BudgetList.vue';
 
   export default {
     name: "Budget",
     components: {
       BudgetControl,
-      BudgetHeader
+      BudgetHeader,
+      BudgetList
     },
     computed: {
       loading() {

@@ -39,10 +39,10 @@ const mutations = {
     state.user.expenses.push(expense);
   },
   addPlannedBudget(state, plannedBudget) {
-
+    state.user.plannedBudgets.push(plannedBudget);
   },
   addGoal(state, goal) {
-
+    state.user.goals.push(goal);
   }
 };
 
@@ -68,7 +68,25 @@ const actions = {
               categoriesArr.push({...res.data[key].categories[key2], key: key2});
             }
 
-            commit('setUser', {...res.data[key], key, incomes: incomeArr, expenses: expenseArr, categories: categoriesArr});
+            let plannedBudgetArr = [];
+            for(let key2 in res.data[key].plannedBudgets) {
+              plannedBudgetArr.push({...res.data[key].plannedBudgets[key2], key: key2});
+            }
+
+            let goalsArr = [];
+            for(let key2 in res.data[key].goals) {
+              goalsArr.push({...res.data[key].goals[key2], key: key2});
+            }
+
+            commit('setUser', {
+              ...res.data[key],
+              key,
+              incomes: incomeArr,
+              expenses: expenseArr,
+              categories: categoriesArr,
+              plannedBudgets: plannedBudgetArr,
+              goals: goalsArr
+            });
           }
         }
         commit('finishRequest');
@@ -152,7 +170,11 @@ const getters = {
     else {
       return state.user.expenses.reduce((accumulator, expense) => accumulator + parseInt(expense.value), 0);
     }
-  }
+  },
+  getUserIncomes: state => state.user.incomes,
+  getUserExpenses: state => state.user.expenses,
+  getUserPlannedBudgets: state => state.user.plannedBudgets,
+  getUserGoals: state => state.user.goals
 };
 
 export default {

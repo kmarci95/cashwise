@@ -26,7 +26,7 @@ const actions = {
       })
       .then(res => {
         console.log(res);
-        commit('authUser', {token: res.data.idToken, userId: res.data.localId});
+        dispatch('login', {token: res.data.idToken, userId: res.data.localId});
         const now = new Date();
         const expDate = new Date(now.getTime() + res.data.expiresIn * 1000);
         localStorage.setItem('token', res.data.idToken);

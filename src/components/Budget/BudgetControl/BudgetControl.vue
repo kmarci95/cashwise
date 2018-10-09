@@ -1,6 +1,6 @@
 <template>
-  <div class="add mt-5 d-flex justify-content-center">
-    <div class="d-flex justify-content-center w-100 py-2 px-4">
+  <div class="row add mt-5 d-flex justify-content-center">
+    <div class="d-flex justify-content-center col-lg-12 py-2 px-4">
       <select class="expense form-control mr-3" id="expense" v-model="amplitude">
         <option>-</option>
         <option>+</option>
