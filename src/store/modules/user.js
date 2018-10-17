@@ -24,30 +24,16 @@ const mutations = {
   },
   editCategory(state, category) {
     const index = state.user.categories.findIndex(cat => cat.key === category.key);
-    console.log(index);
     state.user.categories.splice(index, 1, category);
   },
   deleteCategory(state, category) {
-    console.log(category);
     const index = state.user.categories.findIndex(cat => cat.key === category.key);
     state.user.categories.splice(index, 1);
-  },
-  addIncome(state, income) {
-    state.user.incomes.push(income);
-  },
-  addExpense(state, expense) {
-    state.user.expenses.push(expense);
-  },
-  addPlannedBudget(state, plannedBudget) {
-    state.user.plannedBudgets.push(plannedBudget);
-  },
-  addGoal(state, goal) {
-    state.user.goals.push(goal);
   }
 };
 
 const actions = {
-  fetchUser({commit}, userId) {
+  fetchUser({commit, dispatch}, userId) {
     commit('startRequest');
     axios.get('https://cashwise-a8d6a.firebaseio.com/users.json')
       .then(res => {
@@ -79,14 +65,16 @@ const actions = {
             }
 
             commit('setUser', {
-              ...res.data[key],
+              userName: res.data[key].userName,
+              userId: res.data[key].userId,
               key,
-              incomes: incomeArr,
               expenses: expenseArr,
-              categories: categoriesArr,
-              plannedBudgets: plannedBudgetArr,
-              goals: goalsArr
+              categories: categoriesArr
             });
+            dispatch('setIncomes', incomeArr);
+            dispatch('setExpenses', expenseArr);
+            dispatch('setPlannedBudgets', plannedBudgetArr);
+            dispatch('setGoals', goalsArr);
           }
         }
         commit('finishRequest');
@@ -120,26 +108,6 @@ const actions = {
     axios.delete(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/categories/${category.key}.json`)
       .then(res => commit('deleteCategory', category))
       .catch(err => console.error(err));
-  },
-  addIncome({commit}, income) {
-    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/incomes.json`, income)
-      .then(res => commit('addIncome', income))
-      .catch(err => console.error(err));
-  },
-  addExpense({commit}, expense) {
-    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/expenses.json`, expense)
-      .then(res => commit('addExpense', expense))
-      .catch(err => console.error(err));
-  },
-  addPlannedBudget({commit}, plannedBudget) {
-    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/plannedBudgets.json`, plannedBudget)
-      .then(res => commit('addPlannedBudget', plannedBudget))
-      .catch(err => console.error(err));
-  },
-  addGoal({commit}, goal) {
-    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${state.user.key}/goals.json`, goal)
-      .then(res => commit('addGoal', goal))
-      .catch(err => console.log(err));
   }
 };
 
@@ -158,23 +126,7 @@ const getters = {
   },
   getBudget(state) {
     return state.user.budget;
-  },
-  getIncome(state) {
-    if(!state.user.incomes) return 0;
-    else {
-      return state.user.incomes.reduce((accumulator, income) => accumulator + parseInt(income.value), 0);
-    }
-  },
-  getExpenses(state) {
-    if(!state.user.expenses) return 0;
-    else {
-      return state.user.expenses.reduce((accumulator, expense) => accumulator + parseInt(expense.value), 0);
-    }
-  },
-  getUserIncomes: state => state.user.incomes,
-  getUserExpenses: state => state.user.expenses,
-  getUserPlannedBudgets: state => state.user.plannedBudgets,
-  getUserGoals: state => state.user.goals
+  }
 };
 
 export default {
