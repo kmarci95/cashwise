@@ -14,6 +14,9 @@
               <div class="col-lg-12">
                 <goal-form></goal-form>
               </div>
+              <div class="col-lg-12">
+                <goal-list :goals="goals"></goal-list>
+              </div>
             </div>
           </div>
         </div>
@@ -23,18 +26,24 @@
 </template>
 
 <script>
+  import moment from 'moment';
+
   import GoalForm from "../Forms/GoalForm/GoalForm";
+  import GoalList from "./GoalList/GoalList";
   export default {
     name: "Goals",
-    components: {GoalForm},
+    components: {GoalList, GoalForm},
     computed: {
       loading() {
         return this.$store.getters.getUserLoading;
+      },
+      goals() {
+        return this.$store.getters.getUserGoals;
       }
-    },
+    }
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

@@ -27,13 +27,13 @@
     },
     computed: {
       budget() {
-        return this.$store.getters.getBudget;
+        return (this.income - this.expenses).toLocaleString();
       },
       income() {
         return this.$store.getters.getIncome;
       },
       expenses() {
-        return this.$store.getters.getExpenses;
+        return this.$store.getters.getExpense;
       }
     },
   }

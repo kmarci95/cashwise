@@ -14,6 +14,9 @@
               <div class="col-lg-12">
                 <planned-budget-form></planned-budget-form>
               </div>
+              <div class="col-lg-12">
+                <planned-budget-list :plannedBudgets="plannedBudgets"></planned-budget-list>
+              </div>
             </div>
           </div>
         </div>
@@ -24,12 +27,16 @@
 
 <script>
   import PlannedBudgetForm from "../Forms/PlannedBudgetForm/PlannedBudgetForm.vue";
+  import PlannedBudgetList from "./PlannedBudgetList/PlannedBudgetList";
   export default {
     name: "PlannedBudget",
-    components: {PlannedBudgetForm},
+    components: {PlannedBudgetList, PlannedBudgetForm},
     computed: {
       loading() {
         return this.$store.getters.getUserLoading;
+      },
+      plannedBudgets() {
+        return this.$store.getters.getUserPlannedBudgets;
       }
     },
   }

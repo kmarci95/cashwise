@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import Navbar from "./components/Navbar/Navbar.vue";
+  import Navbar from "./components/UIElements/Navbar/Navbar.vue";
   import 'jquery/dist/jquery.min';
   import 'popper.js/dist/popper.min';
 
@@ -24,6 +24,7 @@
 <style lang="scss">
   @import "assets/style/bootstrap.css";
   @import "~@fortawesome/fontawesome-free/css/all.css";
+  @import "~material-design-icons/iconfont/material-icons.css";
 
   .btn:focus, .btn:active {
     box-shadow: none !important;

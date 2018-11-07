@@ -8,9 +8,9 @@
 </template>
 
 <script>
-  import Navbar from "../components/Navbar/Navbar.vue";
+  import Navbar from "../components/UIElements/Navbar/Navbar.vue";
   import Budget from "../components/Budget/Budget.vue";
-  import Infobar from "../components/Infobar/Infobar.vue";
+  import Infobar from "../components/UIElements/Infobar/Infobar.vue";
 
   export default {
     name: "DashboardPage",

@@ -1,25 +1,29 @@
 <template>
-  <div class="border p-3 goal-form">
-    <div class="bg-primary d-inline-block p-2 text-white planned-budget-form__banner">
-      My Goal
-    </div>
+  <div class="p-3 goal-form bg-white">
     <div class="d-flex justify-content-between">
-      <div class="form-group w-100 mr-2">
+      <h5 class="m-0">Add Goal</h5>
+      <span class="close" @click="$emit('close')"><i class="material-icons">clear</i></span>
+    </div>
+
+    <hr>
+
+    <div class="">
+      <div class="form-group mr-2">
         <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" placeholder="Description" v-model="description">
+        <input type="text" class="form-control" id="description" placeholder="Description" v-model="goal.description">
       </div>
-      <div class="form-group w-100 mr-2">
+      <div class="form-group mr-2">
         <label for="value">Value</label>
-        <input type="number" class="form-control" id="value" placeholder="Value" v-model="value">
+        <input type="number" class="form-control" id="value" placeholder="Value" v-model="goal.value">
       </div>
-      <div class="w-100">
+      <div>
         <label>Deadline</label>
         <datepicker class="date mr-3 mb-3" wrapper-class="datepicker w-100" input-class="w-100" placeholder="Date"
-                    v-model="date"></datepicker>
+                    v-model="goal.date"></datepicker>
       </div>
     </div>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-outline-primary" @click="add">Add</button>
+      <button class="btn btn-outline-primary btn-block" @click="add">Add</button>
     </div>
   </div>
 </template>
@@ -33,11 +37,24 @@
     components: {
       Datepicker
     },
+    props: {
+      keyString: {
+        type: String,
+        default: ''
+      },
+    },
+    created() {
+      if(this.keyString) {
+        this.goal = {...this.$store.getters.getUserGoal(this.keyString)};
+      }
+    },
     data() {
       return {
-        description: '',
-        value: '',
-        date: new Date(),
+        goal: {
+          description: '',
+          value: '',
+          date: new Date()
+        },
         descriptionError: {
           descriptionMsg: '',
           error: false
@@ -54,21 +71,18 @@
     },
     methods: {
       add() {
-        this.descriptionError = validate(this.description, 'text');
-        this.valueError = validate(this.value, 'number');
+        this.descriptionError = validate(this.goal.description, 'text');
+        this.valueError = validate(this.goal.value, 'number');
         if(!this.descriptionError.error && !this.valueError.error) {
-          const goal = {
-            description: this.description,
-            value: this.value,
-            date: this.date
-          };
-          this.$store.dispatch('addGoal', goal)
-            .then(res => {
-              this.description = '';
-              this.value = '';
-              this.date = new Date();
-              this.$store.dispatch('displayInfoBar', {color: 'alert-success', title: `Goal Addded`, text: ''})
-            });
+          if(this.keyString) {
+            this.$store.dispatch('editGoal', this.goal);
+            this.$emit('close');
+          } else {
+            this.$store.dispatch('addGoal', this.goal)
+              .then(res => {
+                this.$emit('close');
+              });
+          }
         } else {
           console.log('error');
         }

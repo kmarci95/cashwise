@@ -1,51 +1,55 @@
 <template>
-  <div class="border p-3 planned-budget-form">
-    <div class="bg-primary d-inline-block p-2 text-white planned-budget-form__banner">
-      My Planned Budget
-    </div>
+  <div class="p-3 planned-budget-form bg-white">
     <div class="d-flex justify-content-between">
-      <div class="form-group w-100 mr-2">
+      <h5 class="m-0">Add Planned Budget</h5>
+      <span class="close" @click="$emit('close')"><i class="material-icons">clear</i></span>
+    </div>
+
+    <hr>
+
+    <div class="">
+      <div class="form-group">
+        <div class="custom-control custom-radio">
+          <input type="radio" id="one-tme" name="customRadio" class="custom-control-input" v-model="plannedBudget.oneTimeOnly" value="one">
+          <label class="custom-control-label" for="one-tme">One-time budget</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="repeating" name="customRadio" class="custom-control-input" v-model="plannedBudget.oneTimeOnly" value="repeat">
+          <label class="custom-control-label" for="repeating">Reapating budget</label>
+        </div>
+      </div>
+      <div>
+        <label>{{dateLabel}}</label>
+        <datepicker class="date mr-3 mb-3" wrapper-class="datepicker w-100" input-class="w-100" placeholder="Date" v-model="plannedBudget.date"></datepicker>
+      </div>
+      <div class="form-group" v-if="plannedBudget.oneTimeOnly === 'repeat'">
+        <label>Subscription time</label>
+        <select class="custom-select expense form-control mr-3" v-model="plannedBudget.subscription">
+          <option disabled>Choose a subscription time</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+          <option>Yearly</option>
+        </select>
+      </div>
+      <div class="form-group  mr-2">
         <label>Expense or Income</label>
-        <select class="custom-select expense form-control mr-3" v-model="amplitude">
+        <select class="custom-select expense form-control mr-3" v-model="plannedBudget.budget">
           <option>-</option>
           <option>+</option>
         </select>
       </div>
-      <div class="form-group w-100 mr-2">
+      <div class="form-group  mr-2">
         <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" placeholder="Description" v-model="description">
+        <input type="text" class="form-control" id="description" placeholder="Description" v-model="plannedBudget.description">
       </div>
-      <div class="form-group w-100">
+      <div class="form-group ">
         <label for="value">Value</label>
-        <input type="number" class="form-control" id="value" placeholder="Value" v-model="value">
+        <input type="number" class="form-control" id="value" placeholder="Value" v-model="plannedBudget.value">
       </div>
-    </div>
-    <div class="form-group">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="one-tme" name="customRadio" class="custom-control-input" v-model="oneTimeOnly" value="one">
-        <label class="custom-control-label" for="one-tme">One-time budget</label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" id="repeating" name="customRadio" class="custom-control-input" v-model="oneTimeOnly" value="repeat">
-        <label class="custom-control-label" for="repeating">Reapating budget</label>
-      </div>
-    </div>
-    <div>
-      <label>{{dateLabel}}</label>
-      <datepicker class="date mr-3 mb-3" wrapper-class="datepicker w-100" input-class="w-100" placeholder="Date" v-model="date"></datepicker>
-    </div>
-    <div class="form-group" v-if="oneTimeOnly === 'repeat'">
-      <label>Subscription time</label>
-      <select class="custom-select expense form-control mr-3" v-model="subscription">
-        <option disabled>Choose a subscription time</option>
-        <option>Daily</option>
-        <option>Weekly</option>
-        <option>Monthly</option>
-        <option>Yearly</option>
-      </select>
     </div>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-outline-primary" @click="add">Add</button>
+      <button class="btn btn-outline-primary btn-block" @click="add">Add</button>
     </div>
   </div>
 </template>
@@ -57,15 +61,36 @@
   export default {
     name: "PlannedBudgetForm",
     components: {Datepicker},
+    props: {
+      keyString: {
+        type: String,
+        default: ''
+      },
+      budgetType: {
+        type: String,
+        default: ''
+      }
+    },
+    created() {
+      if(this.keyString) {
+        this.plannedBudget = {...this.$store.getters.getUserPlannedBudget(this.keyString)};
+        if(this.plannedBudget.subscription) {
+          this.plannedBudget.oneTimeOnly = 'repeat';
+        } else {
+        }
+      }
+    },
     data() {
       return {
-        oneTimeOnly: 'one',
-        amplitude: '-',
-        description: '',
-        value: '',
-        category: 'Categories',
-        date: new Date(),
-        subscription: 'Choose a subscription time',
+        plannedBudget: {
+          oneTimeOnly: 'one',
+          budget: '-',
+          description: '',
+          value: '',
+          category: 'Categories',
+          date: new Date(),
+          subscription: 'Choose a subscription time'
+        },
         descriptionError: {
           descriptionMsg: '',
           error: false
@@ -82,51 +107,44 @@
     },
     computed: {
       dateLabel() {
-        return this.oneTimeOnly === 'one' ? 'Planned date' : 'Select start date';
+        return this.plannedBudget.oneTimeOnly === 'one' ? 'Planned date' : 'Select start date';
       }
     },
     methods: {
       add() {
-        this.descriptionError = validate(this.description, 'text');
-        this.valueError = validate(this.value, 'number');
+        this.descriptionError = validate(this.plannedBudget.description, 'text');
+        this.valueError = validate(this.plannedBudget.value, 'number');
         if(!this.descriptionError.error && !this.valueError.error) {
-          if(this.oneTimeOnly === 'repeat') {
-            if(this.subscription !== 'Choose a subscription time') {
-              const newPlanned = {
-                budget: this.amplitude,
-                description: this.description,
-                value: this.value,
-                subscription: this.subscription,
-                date: this.date
-              };
-              this.$store.dispatch('addPlannedBudget', newPlanned)
+          if(this.keyString ){
+            if(this.plannedBudget.oneTimeOnly === 'repeat') {
+              if(this.plannedBudget.subscription !== 'Choose a subscription time') {
+                this.$store.dispatch('editPlannedBudget', this.plannedBudget)
+                  .then(res => {
+
+                    this.$emit('close');
+                  });
+              }
+            } else {
+              this.$store.dispatch('editPlannedBudget', this.plannedBudget)
                 .then(res => {
-                  this.$store.dispatch('displayInfoBar', {color: 'alert-success', title: `Planned Budget Addded`, text: ''});
-                  this.description = '';
-                  this.value = '';
-                  this.date = new Date();
-                  this.oneTimeOnly = 'one';
-                  this.amplitude = '-';
-                  this.subscription = 'Choose a subscription time';
+
+                  this.$emit('close');
                 });
             }
           } else {
-            const newPlanned = {
-              budget: this.amplitude,
-              description: this.description,
-              value: this.value,
-              date: this.date
-            };
-            this.$store.dispatch('addPlannedBudget', newPlanned)
-              .then(res => {
-                this.$store.dispatch('displayInfoBar', {color: 'alert-success', title: `Planned Budget Addded`, text: ''});
-                this.description = '';
-                this.value = '';
-                this.date = new Date();
-                this.oneTimeOnly = 'one';
-                this.amplitude = '-';
-                this.subscription = 'Choose a subscription time';
-              });
+            if(this.plannedBudget.oneTimeOnly === 'repeat') {
+              if(this.plannedBudget.subscription !== 'Choose a subscription time') {
+                this.$store.dispatch('addPlannedBudget', this.plannedBudget)
+                  .then(res => {
+                    this.$emit('close');
+                  });
+              }
+            } else {
+              this.$store.dispatch('addPlannedBudget', this.plannedBudget)
+                .then(res => {
+                  this.$emit('close');
+                });
+            }
           }
         } else {
           console.log('error');
@@ -138,10 +156,6 @@
 
 <style lang="scss">
   .planned-budget-form {
-    &__banner {
-      transform: translateY(-2rem);
-    }
-
     .datepicker {
       div:first-child {
         height: 100%;

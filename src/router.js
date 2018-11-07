@@ -6,6 +6,7 @@ import Budget from './components/Budget/Budget.vue';
 import PlannedBudget from './components/PlannedBudget/PlannedBudget.vue';
 import AccountSettings from './components/AccountSettings/AccountSettings.vue';
 import Goals from './components/Goals/Goals.vue';
+import Listings from './components/Listings/Listings.vue';
 import store from './store/store';
 
 Vue.use(Router);
@@ -20,7 +21,7 @@ export default new Router({
       component: LoginPage
     },
     {
-      path: '/dashboard', name: 'dashboard', component: DashboardPage, redirect: '/dashboard/budget',
+      path: '/dashboard', name: 'dashboard', component: DashboardPage, redirect: '/dashboard/listings',
       beforeEnter(to, from, next) {
         if(store.state.auth.idToken) {
           next()
@@ -29,7 +30,8 @@ export default new Router({
         }
       },
       children: [
-        {path: 'budget', component: Budget},
+        {path: 'listings', component: Listings},
+        {path: 'listings/:id/budget', component: Budget},
         {path: 'account-settings', component: AccountSettings},
         {path: 'planned-budget', component: PlannedBudget},
         {path: 'goals', component: Goals},
