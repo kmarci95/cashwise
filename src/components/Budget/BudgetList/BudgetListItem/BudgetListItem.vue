@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-5">
     <h4 class="text-center mb-3" :class="titleColor">{{title}}</h4>
     <table class="table table-hover">
       <thead>
@@ -20,6 +20,9 @@
         <td class="array-row__delete">
           <span class="text-primary mr-2" @click="editBudget(item.key)">Edit</span>
           <span class="text-danger" @click="deleteBudget(item.key)">Delete</span>
+        <td class="array-row__delete">
+          <span class="text-primary mr-2">Edit</span>
+          <span class="text-danger">Delete</span>
         </td>
       </tr>
       </tbody>

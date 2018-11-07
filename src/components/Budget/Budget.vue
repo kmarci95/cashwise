@@ -8,7 +8,6 @@
           </div>
           <div v-else>
             <budget-header></budget-header>
-
             <ul class="nav nav-tabs my-3">
               <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#budget">Budget</a>
@@ -68,7 +67,7 @@
       BudgetControl,
       BudgetHeader,
       BudgetList,
-      Modal
+      Modal,
     },
     computed: {
       loading() {

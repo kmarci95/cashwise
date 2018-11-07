@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-5">
     <h4 class="text-center text-primary mb-3">Goals</h4>
     <table class="table table-hover">
       <thead>
@@ -26,7 +26,6 @@
       </tr>
       </tbody>
     </table>
-
     <confirm-modal :show="confirmModalShow" @close="openConfirmModal" title="Do you want to delete this goal?"
                    cancel-text="Cancel"
                    confirm-text="Delete"

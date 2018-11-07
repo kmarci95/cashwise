@@ -26,21 +26,13 @@ const actions = {
   setIncomes({commit}, incomes) {
     commit('setIncomes', incomes);
   },
-  async addIncome({commit}, income) {
-    try {
-      const incomeRes = await axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${user.state.user.key}/incomes.json`, income);
-      const incomeKey = incomeRes.data.name;
-      commit('addIncome', {...income, key: incomeKey});
-    } catch(error) {
-      console.log('catched');
-      console.log(error);
-    }
-    // return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${user.state.user.key}/incomes.json`, income)
-    //   .then(res => {
-    //     income.key = res.data.name;
-    //     commit('addIncome', income);
-    //   })
-    //   .catch(err => console.error(err));
+  addIncome({commit}, income) {
+    return axios.post(`https://cashwise-a8d6a.firebaseio.com/users/${user.state.user.key}/incomes.json`, income)
+      .then(res => {
+        income.key = res.data.name;
+        commit('addIncome', income);
+      })
+      .catch(err => console.error(err));
   },
   editIncome({commit}, income) {
     axios.patch(`https://cashwise-a8d6a.firebaseio.com/users/${user.state.user.key}/incomes/${income.key}.json`, income)

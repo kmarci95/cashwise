@@ -76,7 +76,7 @@
         this.selectedBudgetType = isIncome === true ? 'income' : 'expense';
       }
     },
-  }
+}
 </script>
 
 <style scoped>

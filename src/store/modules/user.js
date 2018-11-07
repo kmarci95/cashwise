@@ -63,7 +63,6 @@ const actions = {
             for(let key2 in res.data[key].goals) {
               goalsArr.push({...res.data[key].goals[key2], key: key2});
             }
-
             let listingsArr = [];
             for(let key2 in res.data[key].listings) {
               listingsArr.push({...res.data[key].listings[key2], key: key2});
